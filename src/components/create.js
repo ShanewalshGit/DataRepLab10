@@ -21,7 +21,7 @@ function Create(){
             <h2>Hello from Create component</h2>
             <form onSubmit={handleSubmit}>
                 {/* Seperate div for each form input for books*/}
-                <div className="form-group">
+                <div className="form-group"> {/* add a book title to the api*/}
                     <label>Add Book Title: </label>
                     <input type="text"
                     className="form-control"
@@ -29,7 +29,7 @@ function Create(){
                     onChange={(e) => { setTitle(e.target.value) }}
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group"> {/* add a book author to the api*/}
                     <label>Add Book Author: </label>
                     <input type="text"
                     className="form-control"
@@ -37,7 +37,7 @@ function Create(){
                     onChange={(e) => { setAuthor(e.target.value) }}
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group"> {/* add a book cover to the api*/}
                     <label>Add Front Page Url: </label>
                     <input type="text"
                     className="form-control"
