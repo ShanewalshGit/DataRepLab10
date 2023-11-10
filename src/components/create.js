@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 function Create(){
 
@@ -12,6 +13,17 @@ function Create(){
 
         // displays submitted data to the console
         console.log("Title: "+ title + " Cover: " + cover + " Author: "+ author);
+
+        // book var for inputted data
+        const book = ({
+            title:title,
+            cover:cover,
+            author:author
+        });
+        // send inputted book data to server.js in BackEnd
+        axios.post("http://localhost:4000/api/books",book)
+        .then()
+        .catch();
 
     }
 
