@@ -20,6 +20,30 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
+// Mongoose setup
+const mongoose = require('mongoose');
+const { request } = require('http');
+
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect('mongodb+srv://admin:admin@shanescluster.bayvtko.mongodb.net/?retryWrites=true&w=majority');
+
+  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+}
+
+// Establish Schema
+const bookSchema = new mongoose.Schema({
+    title:String,
+    cover:String,
+    author:String
+});
+
+const bookModel = mongoose.model('books', bookSchema);
+
+
+
 // returns welcome message to the base url for our server
 app.get('/', (req, res) => {
   res.send('Welcome to Data Representation & Querying')
@@ -32,48 +56,17 @@ app.get('/hello/:name', (req,res) =>{
 })
 
 // returns book json data
-app.get('/api/books', (req,res) =>{
-    const data = [
-    {
-    "title": "Learn Git in a Month of Lunches",
-    "isbn": "1617292419",
-    "pageCount": 0,
-    "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/umali.jpg",
-    "status": "MEAP",
-    "authors": ["Rick Umali"],
-    "categories": []
-    },
-    {
-    "title": "MongoDB in Action, Second Edition",
-    "isbn": "1617291609",
-    "pageCount": 0,
-    "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/banker2.jpg",
-    "status": "MEAP",
-    "authors": [
-    "Kyle Banker",
-    "Peter Bakkum",
-    "Tim Hawkins",
-    "Shaun Verch",
-    "Douglas Garrett"
-    ],
-    "categories": []
-    },
-    {
-    "title": "Getting MEAN with Mongo, Express, Angular, and Node",
-    "isbn": "1617292036",
-    "pageCount": 0,
-    "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/sholmes.jpg",
-    "status": "MEAP",
-    "authors": ["Simon Holmes"],
-    "categories": []
-    }
-    ];
+app.get('/api/books', async (req,res) =>{
+    let books = await bookModel.find({});
+    res.json(books);
+})
 
-    // sends back json data
-    res.status(200).json({
-        myBooks:data, 
-        "message": "Hello from server, these are your books"
-    });
+// returns bookdata from bookModel based on id
+app.get('/api/book/:id', async (req,res)=>{
+    console.log(req.params.id);
+
+    let book = await bookModel.findById({_id:req.params.id});
+    res.send(book);
 })
 
 // returns the indicated file, in this case index.html
@@ -89,8 +82,14 @@ app.get('/name', (req,res) => {
 // returns a secure output using post and body parser of our sent book data from create.js
 app.post('/api/books', (req,res) =>{
     console.log(req.body);
-    res.send("Data recieved");
-})
+    bookModel.create({
+        title:req.body.title,
+        cover:req.body.cover,
+        author:req.body.author
+    })
+    .then(()=>{res.send("Book Created")})
+    .catch(()=>{res.send("Book Not Created")})
+});
 
 // Listens in on the selected port (4000 for us)
 app.listen(port, () => {

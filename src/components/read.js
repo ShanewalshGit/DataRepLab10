@@ -12,7 +12,7 @@ function Read(){
             axios.get("http://localhost:4000/api/books") // link to our server
             .then(
                 (response)=>{
-                    setData(response.data.myBooks);
+                    setData(response.data);
                 }
             )
             .catch(

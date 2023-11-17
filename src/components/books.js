@@ -4,7 +4,7 @@ function Books(props){
     return props.myBooks.map(
         (book)=>{
             // adds book item to book using a map and props function
-            return <BookItem myBook={book}></BookItem>
+            return <BookItem myBook={book} key={book._id}></BookItem>
         }
     );
 }
