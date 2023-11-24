@@ -1,6 +1,5 @@
 import { Card, CardBody, CardHeader } from "react-bootstrap";
-
-
+import { Link } from 'react-router-dom';
 
 function BookItem(props){
     return (
@@ -22,6 +21,7 @@ function BookItem(props){
 
                         </blockquote>
                     </CardBody>
+                    <Link to={"/edit/"+props.myBook._id} className="btn btn-primary">Edit</Link>
                 </Card>
             </div>
 

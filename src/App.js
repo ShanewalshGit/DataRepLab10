@@ -6,6 +6,7 @@ import Content from './components/content'; // content component import
 import Footer from './components/footer'; // footer component import
 import Read from './components/read';
 import Create from './components/create';
+import Edit from './components/edit';
 
 // Bootstrap imports
 import Container from 'react-bootstrap/Container';
@@ -39,6 +40,7 @@ function App() {
         <Route path='read' element={<Read></Read>}></Route>
         {/* Routes to the footer component, displayng it only*/}
         <Route path='create' element={<Create></Create>}></Route>
+        <Route path='edit/:id' element={<Edit></Edit>}></Route>
       </Routes>
     </div>
     </BrowserRouter>

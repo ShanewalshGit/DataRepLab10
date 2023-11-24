@@ -40,7 +40,15 @@ const bookSchema = new mongoose.Schema({
     author:String
 });
 
+// Create book model using mongoose
 const bookModel = mongoose.model('books', bookSchema);
+
+// Update book data based on id
+app.put('/api/book/:id', async(req,res)=>{
+    console.log("Update: "+req.params.id);
+    let book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {new:true});
+    res.send(book);
+})
 
 
 
