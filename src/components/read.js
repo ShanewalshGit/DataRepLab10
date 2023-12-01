@@ -23,10 +23,25 @@ function Read(){
         },[]
     );
 
+    // ReloadData function to reload data
+    const ReloadData = (e) =>{ // reloads data
+        axios.get("http://localhost:4000/api/books") // link to our server
+        .then(
+            (response)=>{
+                setData(response.data); // sets data to response data
+            }
+        )
+        .catch(
+            (error)=>{
+                console.log(error);
+            }
+        )
+    }
+
     // Displays book data
     return (
         <div>
-            <Books myBooks={data}></Books>
+            <Books myBooks={data} Reload={ReloadData}></Books>
         </div>
     );
 }

@@ -50,6 +50,12 @@ app.put('/api/book/:id', async(req,res)=>{
     res.send(book);
 })
 
+// Delete book data based on id
+app.delete('/api/book/:id', async(req,res)=>{
+    console.log("Delete: "+req.params.id);
+    let book = await bookModel.findByIdAndDelete(req.params.id);
+    res.send(book);
+})
 
 
 // returns welcome message to the base url for our server
