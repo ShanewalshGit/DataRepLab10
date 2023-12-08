@@ -1,8 +1,12 @@
 const express = require('express')
 const app = express()
 const port = 4000
-const path = require('path');
 const cors = require('cors');
+
+// Locate the build folder and use it as a static folder
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
 
 // Avoid a CORS error occuring
 app.use(cors());
@@ -103,6 +107,11 @@ app.post('/api/books', (req,res) =>{
     })
     .then(()=>{res.send("Book Created")})
     .catch(()=>{res.send("Book Not Created")})
+});
+
+// returns the index.html file
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../build/index.html'));
 });
 
 // Listens in on the selected port (4000 for us)
